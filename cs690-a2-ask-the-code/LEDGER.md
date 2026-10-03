@@ -78,3 +78,19 @@ review:    read every line against docstring rules 1 to 6; confirmed it loops ov
 checks:    pytest tests/test_split.py tests/test_questions.py: 12 passed
 evidence:  HANDOUT Step 2; split.py docstring rules 1 to 6
 risk:      not tested on files with Windows line endings or syntax errors
+
+## Entry 4
+artifact:  askcode/search_words.py and results/retrieval_words.csv at the
+           "Step 3: search_words.py and retrieval_words results" commit
+tool:      Claude (claude.ai), Claude Opus 5.5, 2026-10-03; askcode run_eval (no AI calls)
+prompts:   Claude drafted search_words.py; prompts/entry-04-search-words.md
+review:    read every line against docstring scoring rules 1 to 6; checked that
+           question and chunk words are sets, weight is log(N/df), words with df 0
+           are ignored, scores are rounded to 6 places before sorting, and ties keep
+           chunk order; confirmed the handout weights (authorization 3.36, self 0.39)
+checks:    pytest tests/test_search_words.py: 7 passed;
+           python -m askcode.run_eval --search words --no-ai: right function in top 3
+           for 5 of 9 answerable questions; python -m askcode.check_freeze: passed
+evidence:  HANDOUT Step 3; search_words.py docstring rules 1 to 6
+risk:      plain word overlap, no BM25 term-frequency or length adjustment; questions
+           phrased without code words may be missed

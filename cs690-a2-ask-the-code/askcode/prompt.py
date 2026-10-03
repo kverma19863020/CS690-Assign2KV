@@ -6,35 +6,53 @@ Check your work with:  pytest tests/test_prompt.py
 
 from __future__ import annotations
 
-from askcode.core import NO_CODE, Chunk, Prompt, format_chunk  # noqa: F401
+from askcode.core import NO_CODE, Chunk, Prompt, format_chunk
+
+# The stable part of the prompt. It never mentions the question or the code, so it
+# is byte-for-byte the same on every call and can go first (and be cached).
+SYSTEM = """Goal:
+You answer questions about the Python source code of the requests library. A
+developer who is new to the code asks one question; you give a short, accurate answer
+and point to the file and line in the code shown that supports it.
+
+Inputs and outputs:
+Input: a "Code:" section with one or more pieces of code, then a "Question:" line.
+Each piece starts with a header "### <file>, <function>, lines <start> to <end>",
+and every code line after it starts with its line number and a colon.
+Output: one JSON object with your answer, the file, and the line number.
+
+Rules:
+1. Answer only from the code shown. Do not use what you know about requests from
+   anywhere else, and do not guess.
+2. If the code shown does not answer the question, reply with the answer
+   "not found in the code shown" and null for both file and line.
+3. "file" is the file name exactly as written in the header of the piece you used,
+   for example "sessions.py".
+4. "line" is one line number, taken from the numbers shown at the start of the code
+   lines, of the line that best supports your answer.
+5. Keep the answer to one or two sentences and name the specific values, codes or
+   conditions the code uses.
+
+Example:
+Question: What does closing a session do to its adapters?
+Reply:
+{"answer": "Session.close loops over every adapter mounted on the session and calls close() on each one.", "file": "sessions.py", "line": 796}
+
+Reply format:
+Reply with exactly one JSON object and nothing before or after it: no explanation,
+no greeting, no Markdown. The object has exactly these three keys:
+"answer": a string,
+"file": a string, or null when the answer is not found in the code shown,
+"line": an integer, or null when the answer is not found in the code shown."""
 
 
 def build_prompt_five_part(question: str, chunks: list[Chunk]) -> Prompt:
     """Build the prompt your pipeline sends to the AI.
 
-    Requirements. The tests check each one.
-
-    1. prompt.system holds the five parts from slide 6. Each part starts on its own
-       line with its label, in this order:
-           Goal:
-           Inputs and outputs:
-           Rules:
-           Example:
-           Reply format:
-    2. Rules tell the model to answer only from the code shown, and, when that code
-       does not answer the question, to reply with the answer
-       "not found in the code shown" and null for both file and line.
-    3. Example holds one sample question and its correct reply written as a JSON
-       object with the keys "answer", "file" and "line". Do not use one of your own
-       ten questions.
-    4. Reply format asks for exactly one JSON object with the keys "answer" (a string),
-       "file" (a string or null) and "line" (an integer or null), with nothing before
-       or after it.
-    5. prompt.system is the same text for every question and every set of chunks.
-       It is the stable part of the prompt, so it goes first (slide 26).
-    6. prompt.user is a line "Code:", then every chunk shown with format_chunk(chunk)
-       in the order given, separated by blank lines, then a line "Question:", then
-       the question. The question comes last. If chunks is empty, put NO_CODE under
-       "Code:" instead.
+    system is the fixed five-part text above (Goal, Inputs and outputs, Rules,
+    Example, Reply format). user is "Code:", the chunks (or NO_CODE), then
+    "Question:" and the question, last.
     """
-    raise NotImplementedError("Step 4: write build_prompt_five_part in askcode/prompt.py")
+    code = "\n\n".join(format_chunk(c) for c in chunks) if chunks else NO_CODE
+    user = f"Code:\n{code}\n\nQuestion:\n{question}"
+    return Prompt(system=SYSTEM, user=user)

@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "57859eb2a619ce919a571c69af18c7ae",
+  "asked_at": "2026-10-03T22:02:47+00:00",
+  "input_tokens": 1470,
+  "output_tokens": 106,
+  "text": "{\n  \"answer\": \"requests changes the redirected request method to GET in these cases: (1) for a 303 See Other response, unless the original method is HEAD; (2) for a 302 Found response, unless the original method is HEAD; and (3) for a 301 Moved Permanently response, only when the original method is POST. Other methods/status combinations are preserved by this logic.\",\n  \"file\": \"sessions.py\",\n  \"line\": \"333-353\"\n}"
+}

@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "3e5172e92260416cba460f74f339d8e8",
+  "asked_at": "2026-10-03T22:02:56+00:00",
+  "input_tokens": 1685,
+  "output_tokens": 442,
+  "text": "{\n  \"answer\": \"Requests does not assume a fixed character set. If the server omits the encoding, it uses charset_normalizer to make a best guess based on the response content.\",\n  \"file\": \"models.py\",\n  \"line\": \"955-974\"\n}"
+}

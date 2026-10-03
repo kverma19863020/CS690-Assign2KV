@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "bd9f1423f67c7e685136223d8d11fb18",
+  "asked_at": "2026-10-03T22:03:06+00:00",
+  "input_tokens": 1978,
+  "output_tokens": 117,
+  "text": "{\n  \"answer\": \"For an HTTPS request with verify set to a nonexistent CA-bundle path, HTTPAdapter.cert_verify raises an OSError stating: \\\"Could not find a suitable TLS CA certificate bundle, invalid path: <path>\\\". HTTPAdapter.send does not catch this OSError at that point, so it propagates to the caller directly. For HTTP requests, this CA-path check is skipped.\",\n  \"file\": \"requests/adapters.py\",\n  \"line\": \"327-331 (raised from cert_verify, called at line 639)\"\n}"
+}

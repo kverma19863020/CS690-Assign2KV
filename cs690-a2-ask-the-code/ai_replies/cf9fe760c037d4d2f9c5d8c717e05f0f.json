@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "cf9fe760c037d4d2f9c5d8c717e05f0f",
+  "asked_at": "2026-10-03T22:02:58+00:00",
+  "input_tokens": 1876,
+  "output_tokens": 45,
+  "text": "{\n  \"answer\": \"python-requests/<version>, for example, python-requests/2.32.5\",\n  \"file\": \"requests/utils.py\",\n  \"line\": 891\n}"
+}

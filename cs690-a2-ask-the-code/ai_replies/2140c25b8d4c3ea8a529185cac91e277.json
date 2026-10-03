@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "2140c25b8d4c3ea8a529185cac91e277",
+  "asked_at": "2026-10-03T22:02:45+00:00",
+  "input_tokens": 1572,
+  "output_tokens": 65,
+  "text": "{\n  \"answer\": \"Requests treats 301 (Moved Permanently) and 308 (Permanent Redirect) as permanent redirects. In resolve_redirects, these correspond to codes.moved_permanently and codes.permanent_redirect.\",\n  \"file\": \"models.py\",\n  \"line\": 779\n}"
+}

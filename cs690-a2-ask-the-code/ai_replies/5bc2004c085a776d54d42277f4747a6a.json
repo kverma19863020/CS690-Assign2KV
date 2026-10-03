@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "5bc2004c085a776d54d42277f4747a6a",
+  "asked_at": "2026-10-03T22:02:51+00:00",
+  "input_tokens": 2144,
+  "output_tokens": 250,
+  "text": "{\n  \"answer\": \"For a normal Session request, setting a per-request header to None removes that header from the merged request headers, so it is not sent. Requests treats None as a deletion marker when merging request-specific headers with Session.headers. This occurs before HTTPAdapter.send(); by the time send() receives the PreparedRequest, the header is already absent.\",\n  \"file\": \"requests/sessions.py\",\n  \"line\": \"merge_setting() (around lines 60–80); called by Session.prepare_request()\"\n}"
+}

@@ -1,0 +1,51 @@
+id,question,expected_file,expected_function,retrieved,hit,hit_rank,valid_json,reply_answer,reply_file,reply_line,right_place,input_tokens,output_tokens,provider,model,price_input_per_mtok,price_output_per_mtok,raw_reply,correct
+q01,"Which HTTP status codes make raise_for_status raise an error, and how does its message tell a client error apart from a server error?",models.py,Response.raise_for_status,sessions.py::SessionRedirectMixin.resolve_redirects; models.py::Response.ok; models.py::Response.raise_for_status,yes,3,no,,,,no,1749,116,openai,gpt-5.6-luna,0.2,1.2,"{
+  ""answer"": ""raise_for_status raises HTTPError for any status code from 400 through 599. Codes 400–499 produce a message labeled \""Client Error\""; codes 500–599 produce a message labeled \""Server Error\"". The message includes the status code, reason phrase, and URL, for example: \""404 Client Error: Not Found for url: ...\"" or \""500 Server Error: Internal Server Error for url: ...\""."",
+  ""file"": ""models.py"",
+  ""line"": ""997–1024""
+}",no
+q02,"If I send a POST request with no body, does requests still send a Content-Length header?",models.py,PreparedRequest.prepare_content_length,adapters.py::HTTPAdapter.send; sessions.py::SessionRedirectMixin.resolve_redirects; api.py::request,no,,no,,,,no,3128,511,openai,gpt-5.6-luna,0.2,1.2,"{
+  ""answer"": ""Yes. For a normal POST request with no body, Requests prepares the request with `Content-Length: 0`. In `HTTPAdapter.send`, `request.body` is `None`, so line 650 sets `chunked` to `False`; the request is therefore sent without chunked transfer encoding. Note that redirects with status codes other than 307/308 explicitly remove `Content-Length` and the body at lines 229–232, after which the transport may determine how to represent the empty body."",
+  ""file"": ""requests/models.py (PreparedRequest.prepare_content_length); requests/adapters.py"",
+  ""line"": ""PreparedRequest.prepare_content_length; adapters.py:650; sessions.py:229-232""
+}",no
+q03,Which redirect status codes count as permanent redirects in requests?,models.py,Response.is_permanent_redirect,sessions.py::SessionRedirectMixin.resolve_redirects; models.py::Response.is_permanent_redirect; sessions.py::SessionRedirectMixin.rebuild_method,yes,2,yes,"Requests treats 301 (Moved Permanently) and 308 (Permanent Redirect) as permanent redirects. In resolve_redirects, these correspond to codes.moved_permanently and codes.permanent_redirect.",models.py,779,yes,1572,65,openai,gpt-5.6-luna,0.2,1.2,"{
+  ""answer"": ""Requests treats 301 (Moved Permanently) and 308 (Permanent Redirect) as permanent redirects. In resolve_redirects, these correspond to codes.moved_permanently and codes.permanent_redirect."",
+  ""file"": ""models.py"",
+  ""line"": 779
+}",yes
+q04,"When a POST request gets redirected, in which cases does requests change it into a GET?",sessions.py,SessionRedirectMixin.rebuild_method,sessions.py::SessionRedirectMixin.rebuild_method; api.py::request; sessions.py::SessionRedirectMixin.rebuild_proxies,yes,1,no,,,,no,1470,106,openai,gpt-5.6-luna,0.2,1.2,"{
+  ""answer"": ""requests changes the redirected request method to GET in these cases: (1) for a 303 See Other response, unless the original method is HEAD; (2) for a 302 Found response, unless the original method is HEAD; and (3) for a 301 Moved Permanently response, only when the original method is POST. Other methods/status combinations are preserved by this logic."",
+  ""file"": ""sessions.py"",
+  ""line"": ""333-353""
+}",no
+q05,"If a header is set on the Session but I set that same header to None for a single request, what happens to the header?",sessions.py,merge_setting,adapters.py::HTTPAdapter.send; sessions.py::SessionRedirectMixin.should_strip_auth; utils.py::super_len,no,,no,,,,no,2144,250,openai,gpt-5.6-luna,0.2,1.2,"{
+  ""answer"": ""For a normal Session request, setting a per-request header to None removes that header from the merged request headers, so it is not sent. Requests treats None as a deletion marker when merging request-specific headers with Session.headers. This occurs before HTTPAdapter.send(); by the time send() receives the PreparedRequest, the header is already absent."",
+  ""file"": ""requests/sessions.py"",
+  ""line"": ""merge_setting() (around lines 60–80); called by Session.prepare_request()""
+}",no
+q06,What character set does requests assume for a text response when the server does not say which one it used?,utils.py,get_encoding_from_headers,models.py::Response.json; models.py::Response.__init__; adapters.py::HTTPAdapter.build_connection_pool_key_attributes,no,,no,,,,no,1685,442,openai,gpt-5.6-luna,0.2,1.2,"{
+  ""answer"": ""Requests does not assume a fixed character set. If the server omits the encoding, it uses charset_normalizer to make a best guess based on the response content."",
+  ""file"": ""models.py"",
+  ""line"": ""955-974""
+}",no
+q07,What User-Agent string does requests send if I do not set one myself?,utils.py,default_user_agent,utils.py::default_user_agent; adapters.py::HTTPAdapter.send; adapters.py::HTTPAdapter.build_connection_pool_key_attributes,yes,1,yes,"python-requests/<version>, for example, python-requests/2.32.5",requests/utils.py,891,no,1876,45,openai,gpt-5.6-luna,0.2,1.2,"{
+  ""answer"": ""python-requests/<version>, for example, python-requests/2.32.5"",
+  ""file"": ""requests/utils.py"",
+  ""line"": 891
+}",yes
+q08,"Which hash algorithms can digest authentication use, and which one is used when the server does not name one?",auth.py,HTTPDigestAuth.build_digest_header,adapters.py::HTTPAdapter.build_connection_pool_key_attributes; sessions.py::Session.request; adapters.py::HTTPAdapter.get_connection_with_tls_context,no,,no,,,,no,2247,534,openai,gpt-5.6-luna,0.2,1.2,"{
+  ""answer"": ""Digest authentication supports MD5, MD5-SESS, SHA (SHA-1), SHA-256, and SHA-512. If the server does not specify an algorithm, MD5 is used by default."",
+  ""file"": ""requests/auth.py"",
+  ""line"": ""approximately 123-157""
+}",no
+q09,What happens if I pass verify a path to a CA bundle that does not exist?,adapters.py,HTTPAdapter.cert_verify,adapters.py::HTTPAdapter.send; adapters.py::BaseAdapter.send; adapters.py::HTTPAdapter.cert_verify,yes,3,no,,,,no,1978,117,openai,gpt-5.6-luna,0.2,1.2,"{
+  ""answer"": ""For an HTTPS request with verify set to a nonexistent CA-bundle path, HTTPAdapter.cert_verify raises an OSError stating: \""Could not find a suitable TLS CA certificate bundle, invalid path: <path>\"". HTTPAdapter.send does not catch this OSError at that point, so it propagates to the caller directly. For HTTP requests, this CA-path check is skipped."",
+  ""file"": ""requests/adapters.py"",
+  ""line"": ""327-331 (raised from cert_verify, called at line 639)""
+}",no
+q10,How many times per month is requests downloaded from PyPI?,,,api.py::request; utils.py::parse_list_header; sessions.py::SessionRedirectMixin.resolve_redirects,n/a,,yes,"The number of monthly PyPI downloads cannot be determined from the provided source code. It must be obtained from PyPI download statistics (for example, via pypistats.org).",api.py,14,no,2386,362,openai,gpt-5.6-luna,0.2,1.2,"{
+  ""answer"": ""The number of monthly PyPI downloads cannot be determined from the provided source code. It must be obtained from PyPI download statistics (for example, via pypistats.org)."",
+  ""file"": ""api.py"",
+  ""line"": 14
+}",yes

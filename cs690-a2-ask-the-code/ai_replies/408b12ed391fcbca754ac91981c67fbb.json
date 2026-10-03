@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "408b12ed391fcbca754ac91981c67fbb",
+  "asked_at": "2026-10-03T22:02:37+00:00",
+  "input_tokens": 1749,
+  "output_tokens": 116,
+  "text": "{\n  \"answer\": \"raise_for_status raises HTTPError for any status code from 400 through 599. Codes 400–499 produce a message labeled \\\"Client Error\\\"; codes 500–599 produce a message labeled \\\"Server Error\\\". The message includes the status code, reason phrase, and URL, for example: \\\"404 Client Error: Not Found for url: ...\\\" or \\\"500 Server Error: Internal Server Error for url: ...\\\".\",\n  \"file\": \"models.py\",\n  \"line\": \"997–1024\"\n}"
+}

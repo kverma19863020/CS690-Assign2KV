@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "f5d2f1659de5855aa395805f0166e3c7",
+  "asked_at": "2026-10-03T22:03:04+00:00",
+  "input_tokens": 2247,
+  "output_tokens": 534,
+  "text": "{\n  \"answer\": \"Digest authentication supports MD5, MD5-SESS, SHA (SHA-1), SHA-256, and SHA-512. If the server does not specify an algorithm, MD5 is used by default.\",\n  \"file\": \"requests/auth.py\",\n  \"line\": \"approximately 123-157\"\n}"
+}

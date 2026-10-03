@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "5d7404ce9d7fdb679a809dc4bf97065f",
+  "asked_at": "2026-10-03T22:02:43+00:00",
+  "input_tokens": 3128,
+  "output_tokens": 511,
+  "text": "{\n  \"answer\": \"Yes. For a normal POST request with no body, Requests prepares the request with `Content-Length: 0`. In `HTTPAdapter.send`, `request.body` is `None`, so line 650 sets `chunked` to `False`; the request is therefore sent without chunked transfer encoding. Note that redirects with status codes other than 307/308 explicitly remove `Content-Length` and the body at lines 229–232, after which the transport may determine how to represent the empty body.\",\n  \"file\": \"requests/models.py (PreparedRequest.prepare_content_length); requests/adapters.py\",\n  \"line\": \"PreparedRequest.prepare_content_length; adapters.py:650; sessions.py:229-232\"\n}"
+}

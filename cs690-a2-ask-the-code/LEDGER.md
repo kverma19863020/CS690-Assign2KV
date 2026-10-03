@@ -66,16 +66,3 @@ checks:    load_questions: 10 questions, 1 unanswerable; show.py found all 9 nam
 evidence:  HANDOUT Step 1; tests/test_questions.py
 risk:      questions were AI-drafted rather than written in class; answer wording
            may need judgment when marking replies as right or wrong
-
-## Entry 2
-artifact:  questions/questions.json at the "Freeze my questions" commit
-tool:      Claude (claude.ai), Claude Opus 5.5, 2026-10-03
-prompts:   asked Claude to draft my ten questions; prompts/entry-02-questions.md
-review:    Claude drafted all ten questions and answers; I read every expected
-           function with ~/show.py and checked each answer and line range against
-           the code before freezing
-checks:    load_questions: 10 questions, 1 unanswerable; show.py found all 9 named
-           functions; pytest tests/test_questions.py not run yet (needs Step 2 splitter)
-evidence:  HANDOUT Step 1; tests/test_questions.py
-risk:      questions were AI-drafted rather than written in class; answer wording
-           may need judgment when marking replies as right or wrong

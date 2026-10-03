@@ -94,3 +94,20 @@ checks:    pytest tests/test_search_words.py: 7 passed;
 evidence:  HANDOUT Step 3; search_words.py docstring rules 1 to 6
 risk:      plain word overlap, no BM25 term-frequency or length adjustment; questions
            phrased without code words may be missed
+
+## Entry 5
+artifact:  askcode/prompt.py and askcode/answer.py at the
+           "Step 4: five-part prompt and reply checker" commit
+tool:      Claude (claude.ai), Claude Opus 5.5, 2026-10-03
+prompts:   Claude drafted both files; prompts/entry-05-prompt-answer.md
+review:    prompt.py: checked the five labels are in order, system text never includes
+           the question or code (so it is identical on every call), rules include the
+           "not found in the code shown" reply with null file and line, and the example
+           (Session.close) is not one of my questions. answer.py: checked the fence
+           rule, exact keys, type(line) is int so true/false are rejected, file and line
+           both null or both set, and that every failure is raised as BadReply
+checks:    pytest tests/test_prompt.py tests/test_answer.py: 22 passed;
+           python -m askcode.run_eval --search words --context top3 --prompt five_part
+           --dry-run: about 25,978 input tokens, about $0.0052 estimated input cost
+evidence:  HANDOUT Step 4; prompt.py requirements 1 to 6; answer.py rules 1 to 5
+risk:      a reply can pass the check and still be wrong; that is measured in Step 5

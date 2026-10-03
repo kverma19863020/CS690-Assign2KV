@@ -6,32 +6,38 @@ Check your work with:  pytest tests/test_search_words.py
 
 from __future__ import annotations
 
-import math  # noqa: F401  (you will need it)
+import math
 
-from askcode.core import STOPWORDS, Chunk, words  # noqa: F401
+from askcode.core import STOPWORDS, Chunk, words
 
 
 def search_words(question: str, chunks: list[Chunk], k: int = 3) -> list[Chunk]:
     """Return up to k chunks that best match the question by shared words.
 
-    Scoring. The tests check the exact order this produces.
-
-    1. Question words: the set of words(question), minus STOPWORDS.
-    2. Chunk words: for each chunk, the set of words(chunk.name + "\\n" + chunk.text).
-    3. For each question word w, df(w) is the number of chunks whose word set
-       contains w, and N is len(chunks). Ignore question words no chunk contains.
-    4. weight(w) = math.log(N / df(w)). A rare word weighs a lot; a word found in
-       every chunk weighs 0.
-    5. score(chunk) = the sum of weight(w) over the question words the chunk contains,
-       rounded with round(score, 6). Rounding makes chunks that match the same words
-       tie exactly, whatever order your code adds the weights in.
-    6. Return the chunks whose score is greater than 0, highest score first, at most k
-       of them. When two chunks have the same score, the one that comes first in
-       `chunks` comes first.
-
-    If the question has no words left after step 1, or chunks is empty, return [].
-
-    This is the core idea of BM25, the standard keyword search (slide 45). BM25 adds
-    adjustments for how often a word repeats and for chunk length.
+    Each question word w (stopwords removed) weighs log(N / df(w)), where N is the
+    number of chunks and df(w) is how many chunks contain w. A chunk's score is the
+    sum of the weights of the question words it contains, rounded to 6 places.
+    Chunks scoring above 0 are returned, highest first; ties keep chunk order.
     """
-    raise NotImplementedError("Step 3: write search_words in askcode/search_words.py")
+    question_words = set(words(question)) - STOPWORDS
+    if not question_words or not chunks:
+        return []
+
+    chunk_words = [set(words(c.name + "\n" + c.text)) for c in chunks]
+    n = len(chunks)
+
+    weights: dict[str, float] = {}
+    for w in question_words:
+        df = sum(1 for cw in chunk_words if w in cw)
+        if df > 0:  # ignore question words no chunk contains
+            weights[w] = math.log(n / df)
+
+    scored = []
+    for index, cw in enumerate(chunk_words):
+        score = round(sum(weight for w, weight in weights.items() if w in cw), 6)
+        if score > 0:
+            scored.append((score, index))
+
+    # Highest score first; on a tie, the smaller index (earlier chunk) comes first.
+    scored.sort(key=lambda pair: (-pair[0], pair[1]))
+    return [chunks[index] for _, index in scored[:k]]

@@ -21,7 +21,11 @@ reply or the retrieved functions.
 
 | Question | Hit in top 3 | Correct with gold context | Fault | Evidence |
 | --- | --- | --- | --- | --- |
-|  |  |  |  |  |
+| q02 | no | yes | retrieval | Word search returned HTTPAdapter.send, SessionRedirectMixin.resolve_redirects and api.request instead of prepare_content_length, so the AI said not found; given the gold function it answered correctly. |
+| q05 | no | yes | retrieval | The top 3 were HTTPAdapter.send, should_strip_auth and super_len, not merge_setting, so the AI never saw the code that deletes None-valued keys and said not found. |
+| q06 | no | yes | retrieval | This plain-English question shares few words with get_encoding_from_headers, so word search returned Response.json, Response.__init__ and a connection-pool helper and the AI said not found. |
+| q07 | yes | yes | generation | default_user_agent was ranked first, yet the AI replied not found, likely because the code shows f"{name}/{__version__}" without the version value, even though the expected answer only needs that format. |
+| q08 | no | yes | retrieval | Word search ranked two connection-pool helpers and Session.request above HTTPDigestAuth.build_digest_header, so the AI never saw the algorithm list and said not found. |
 
 ## 2. Paste everything or search? (Step 5)
 

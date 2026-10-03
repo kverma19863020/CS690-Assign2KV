@@ -111,3 +111,27 @@ checks:    pytest tests/test_prompt.py tests/test_answer.py: 22 passed;
            --dry-run: about 25,978 input tokens, about $0.0052 estimated input cost
 evidence:  HANDOUT Step 4; prompt.py requirements 1 to 6; answer.py rules 1 to 5
 risk:      a reply can pass the check and still be wrong; that is measured in Step 5
+
+## Entry 6
+artifact:  results/top3_words_five_part.csv, whole_five_part.csv, gold_five_part.csv
+           and ai_replies/ at the "Step 5: mark top3 not-found replies as wrong" commit
+tool:      askcode run_eval, openai gpt-5.6-luna, 2026-10-03; Claude (claude.ai),
+           Claude Opus 5.5, for marking help and fault labels
+prompts:   the five-part prompt in askcode/prompt.py at commit e4c274a;
+           prompts/entry-06-step5-runs.md
+review:    read every reply against questions.json; first marked all 30 yes, then found
+           that q02, q05, q06, q07 and q08 in top3 replied "not found in the code shown"
+           for answerable questions and corrected them to no; kept q10 yes in all runs
+checks:    python -m askcode.run_eval --search words --context top3 --prompt five_part,
+           --context whole, --context gold: valid JSON 10 of 10 in all three;
+           python -m askcode.summary: Table 3 lists 5 wrong top3 answers
+evidence:  HANDOUT Step 5; REPORT section 1
+risk:      one run per setting; a fresh run may answer differently; marks are my
+           judgment against one-sentence expected answers
+dataset:   questions/questions.json at commit 177461d; corpus requests v2.32.3
+result:    correct top3 5 of 10 (24,295 input tokens, $0.0054), whole 10 of 10
+           (549,348 input tokens, $0.1104), gold 10 of 10 (7,649 input tokens,
+           $0.0021); faults: 4 retrieval (q02, q05, q06, q08), 1 generation (q07)
+changed:   since 4 of 5 misses were retrieval failures, I will fix retrieval
+           (meaning search, Step 7) before changing the prompt; I also learned to
+           mark "not found" as no when the question has a real answer

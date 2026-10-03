@@ -1,14 +1,70 @@
 [
   {
-    "id": "example-1",
-    "question": "Does requests keep the Authorization header when a redirect goes from http to https on the same host?",
-    "expected_file": "sessions.py",
-    "expected_function": "SessionRedirectMixin.should_strip_auth",
-    "expected_answer": "Yes. For an http to https redirect on the same host with the standard ports, should_strip_auth returns False, so the header is kept (lines 137 to 143)."
+    "id": "q01",
+    "question": "Which HTTP status codes make raise_for_status raise an error, and how does its message tell a client error apart from a server error?",
+    "expected_file": "models.py",
+    "expected_function": "Response.raise_for_status",
+    "expected_answer": "Codes 400 to 499 raise HTTPError with the message '<code> Client Error: <reason> for url: <url>', codes 500 to 599 raise it with 'Server Error' instead, and any other code raises nothing (lines 1013 to 1024)."
   },
   {
-    "id": "example-2",
-    "question": "Which company pays for hosting the requests documentation?",
+    "id": "q02",
+    "question": "If I send a POST request with no body, does requests still send a Content-Length header?",
+    "expected_file": "models.py",
+    "expected_function": "PreparedRequest.prepare_content_length",
+    "expected_answer": "Yes. When there is no body and the method is not GET or HEAD and no Content-Length was already set, it sets Content-Length to '0' (lines 580 to 586); a GET or HEAD with no body gets no Content-Length."
+  },
+  {
+    "id": "q03",
+    "question": "Which redirect status codes count as permanent redirects in requests?",
+    "expected_file": "models.py",
+    "expected_function": "Response.is_permanent_redirect",
+    "expected_answer": "301 (moved permanently) and 308 (permanent redirect), and only when the response has a Location header (lines 779 to 782)."
+  },
+  {
+    "id": "q04",
+    "question": "When a POST request gets redirected, in which cases does requests change it into a GET?",
+    "expected_file": "sessions.py",
+    "expected_function": "SessionRedirectMixin.rebuild_method",
+    "expected_answer": "On a 303 or a 302 any method except HEAD becomes GET, and on a 301 a POST becomes GET; otherwise the method is kept (lines 340 to 353)."
+  },
+  {
+    "id": "q05",
+    "question": "If a header is set on the Session but I set that same header to None for a single request, what happens to the header?",
+    "expected_file": "sessions.py",
+    "expected_function": "merge_setting",
+    "expected_answer": "The request's dict is merged over the session's, so the None value wins, and then every key whose value is None is deleted, so the header is not sent (lines 79 to 86)."
+  },
+  {
+    "id": "q06",
+    "question": "What character set does requests assume for a text response when the server does not say which one it used?",
+    "expected_file": "utils.py",
+    "expected_function": "get_encoding_from_headers",
+    "expected_answer": "ISO-8859-1 for any text content type without a charset; a charset given in the Content-Type is used if present, and application/json without a charset is assumed to be utf-8 (lines 553 to 561)."
+  },
+  {
+    "id": "q07",
+    "question": "What User-Agent string does requests send if I do not set one myself?",
+    "expected_file": "utils.py",
+    "expected_function": "default_user_agent",
+    "expected_answer": "'python-requests/' followed by the library version, built as f'{name}/{__version__}' with name defaulting to 'python-requests' (lines 891 and 897)."
+  },
+  {
+    "id": "q08",
+    "question": "Which hash algorithms can digest authentication use, and which one is used when the server does not name one?",
+    "expected_file": "auth.py",
+    "expected_function": "HTTPDigestAuth.build_digest_header",
+    "expected_answer": "MD5 is the default when the server names no algorithm; MD5, MD5-SESS, SHA, SHA-256 and SHA-512 are supported, and any other algorithm makes it return None (lines 138 to 179)."
+  },
+  {
+    "id": "q09",
+    "question": "What happens if I pass verify a path to a CA bundle that does not exist?",
+    "expected_file": "adapters.py",
+    "expected_function": "HTTPAdapter.cert_verify",
+    "expected_answer": "For an https URL it raises OSError saying 'Could not find a suitable TLS CA certificate bundle, invalid path: <path>' (lines 327 to 331)."
+  },
+  {
+    "id": "q10",
+    "question": "How many times per month is requests downloaded from PyPI?",
     "expected_file": null,
     "expected_function": null,
     "expected_answer": "The code cannot answer this. A correct reply says not found in the code shown, with null file and line."

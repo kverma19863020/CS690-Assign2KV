@@ -1,16 +1,24 @@
 # Assignment 2 Report: Ask the Code
 
-Name:
-Provider and model:
-Prices used (per million tokens, input and output), and the page you found them on:
+Name: Ketan Verma
+Provider and model: OpenAI, gpt-5.6-luna
+Prices used (per million tokens, input and output), and the page you found them on: $0.20 input and $1.20 output per million tokens (short context), https://platform.openai.com/docs/pricing
 
 ## Table 1. Finding the right function
 
-Paste Table 1 from `python -m askcode.summary` here, exactly as printed.
+| Run | Right function in top 3 |
+| --- | --- |
+| retrieval_words | 5 of 9 |
+| retrieval_meaning | 7 of 9 |
 
 ## Table 2. Answers
 
-Paste Table 2 from `python -m askcode.summary` here, exactly as printed.
+| Run | Valid JSON | Right place | Correct (your marks) | Input tokens | Output tokens | Cost (USD) |
+| --- | --- | --- | --- | --- | --- | --- |
+| top3_words_five_part | 10 of 10 | 5 of 10 | 5 of 10 | 24,295 | 457 | 0.0054 |
+| whole_five_part | 10 of 10 | 10 of 10 | 10 of 10 | 549,348 | 464 | 0.1104 |
+| gold_five_part | 10 of 10 | 10 of 10 | 10 of 10 | 7,649 | 443 | 0.0021 |
+| top3_words_minimal | 3 of 10 | 1 of 10 | 3 of 10 | 20,235 | 2,548 | 0.0071 |
 
 ## 1. Whose fault is it? (Step 5)
 
@@ -63,7 +71,28 @@ search ranked higher than meaning search, with the ranks from Table 4 of
 `python -m askcode.summary`. If no such question exists, say so. In one sentence each,
 say why you think each search won.
 
+Meaning search ranked q01 higher than word search (rank 1 with meaning, rank 3 with
+words): the question's words (status, codes, error, message) appear in many functions, so
+word search put resolve_redirects and Response.ok first, while the embedding matched the
+question's meaning, raising an error for bad status codes, to raise_for_status. Meaning
+search also found q08 at rank 1 where word search missed it, because "hash algorithms for
+digest authentication" is close in meaning to build_digest_header even though the
+question's other words point at connection code. No question was ranked higher by word
+search than by meaning search: every function word search found, meaning search ranked
+the same or higher, and both searches missed q05 and q06.
+
 ## 5. Your decision rule (Step 8)
 
 One rule for this codebase: when would you paste everything, and when would you search?
 Cite the measured cost and the measured correct count of both designs.
+
+Rule: for this codebase I would search by default and paste everything only when a
+small number of answers must be right. Pasting the whole codebase was correct on 10 of 10
+questions but cost $0.1104 for 549,348 input tokens, about $0.011 per question, while
+searching the top 3 by words cost $0.0054 for 24,295 input tokens but was correct on only
+5 of 10, and 4 of its 5 misses were retrieval failures. Meaning search found the right
+function for 7 of 9 answerable questions against 5 of 9 for words (retrieval only; I did
+not run the AI on its results), and the gold run was correct on 10 of 10 for $0.0021, so
+better retrieval is the cheap path to whole-codebase accuracy. I would use meaning search
+for everyday questions and paste everything for a few high-stakes ones, where the 20 times
+higher cost is still only cents.

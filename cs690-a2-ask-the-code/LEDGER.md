@@ -158,3 +158,27 @@ result:    minimal: correct 3 of 10, right place 1 of 10, valid JSON 3 of 10,
 changed:   kept the five-part prompt for all remaining runs; the reply-format rules and
            example are what made the JSON usable, and they also cut output tokens
            by more than 5 times
+
+## Entry 8
+artifact:  askcode/search_meaning.py and results/retrieval_meaning.csv at the
+           "Step 7: meaning search and retrieval_meaning results" commit
+tool:      Claude (claude.ai), Claude Opus 5.5, 2026-10-03; local embedding model
+           BAAI/bge-small-en-v1.5 via askcode/embed.py
+prompts:   Claude drafted search_meaning.py and report sections 4 and 5;
+           prompts/entry-08-meaning.md
+review:    checked cosine returns 0.0 for a zero vector and raises ValueError for
+           different sizes; checked __init__ calls embed_passages exactly once on
+           name + "\n" + text, and search embeds only the question, sorts by score
+           with ties in chunk order, and always returns k chunks
+checks:    pytest tests/test_search_meaning.py: 6 passed;
+           python -m askcode.run_eval --search meaning --no-ai: right function in
+           top 3 for 7 of 9 answerable questions
+evidence:  HANDOUT Step 7; search_meaning.py docstrings; REPORT section 4
+risk:      I did not run the AI on meaning-search results, so its answer accuracy
+           is not measured, only its retrieval
+dataset:   questions/questions.json at commit 177461d; corpus requests v2.32.3
+result:    retrieval_meaning 7 of 9 against retrieval_words 5 of 9; meaning ranked
+           q01, q02, q03, q08 and q09 higher; word search ranked none higher;
+           both missed q05 and q06 (Table 4)
+changed:   my decision rule in REPORT section 5 prefers meaning search over word
+           search for everyday questions

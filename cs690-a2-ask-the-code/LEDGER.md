@@ -135,3 +135,26 @@ result:    correct top3 5 of 10 (24,295 input tokens, $0.0054), whole 10 of 10
 changed:   since 4 of 5 misses were retrieval failures, I will fix retrieval
            (meaning search, Step 7) before changing the prompt; I also learned to
            mark "not found" as no when the question has a real answer
+
+## Entry 7
+artifact:  results/top3_words_minimal.csv and ai_replies/ at the
+           "Step 6: minimal prompt run, marked" commit; REPORT sections 2 and 3
+tool:      askcode run_eval, openai gpt-5.6-luna, 2026-10-03; Claude (claude.ai),
+           Claude Opus 5.5, for comparing replies and drafting the report text
+prompts:   the fixed build_prompt_minimal in askcode/core.py;
+           prompts/entry-07-step6-minimal.md
+review:    marked all 7 invalid-JSON rows no; read the 3 valid replies (q03, q07, q10)
+           and marked them yes; compared q01 raw replies from both prompts and found the
+           minimal reply put "line": "997–1024" (a string), which parse_reply rejects
+checks:    python -m askcode.run_eval --search words --context top3 --prompt minimal:
+           valid JSON 3 of 10, right place 1 of 10; python -m askcode.summary: Table 2
+evidence:  HANDOUT Step 6; REPORT section 3
+risk:      one run only; q07's yes depends on accepting an invented example version
+dataset:   questions/questions.json at commit 177461d; same top 3 word-search
+           results as top3_words_five_part
+result:    minimal: correct 3 of 10, right place 1 of 10, valid JSON 3 of 10,
+           20,235 in / 2,548 out tokens, $0.0071; five-part: correct 5 of 10, right
+           place 5 of 10, valid JSON 10 of 10, 24,295 in / 457 out tokens, $0.0054
+changed:   kept the five-part prompt for all remaining runs; the reply-format rules and
+           example are what made the JSON usable, and they also cut output tokens
+           by more than 5 times

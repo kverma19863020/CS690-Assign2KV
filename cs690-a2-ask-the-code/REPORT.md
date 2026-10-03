@@ -33,11 +33,28 @@ Compare top3_words_five_part with whole_five_part: correct answers, input tokens
 for each, from Table 2. In two or three sentences: did pasting the whole codebase give
 better answers, and was the difference worth the price?
 
+Pasting the whole codebase gave 10 of 10 correct answers against 5 of 10 for the
+top 3 word-search functions, but it used 549,348 input tokens ($0.1104) against 24,295
+($0.0054), about 23 times the tokens and 20 times the cost. At this codebase's size the
+whole-codebase answers were better and the extra 10.5 cents for ten questions was small
+in absolute terms, but the gold run (10 of 10 for 7,649 tokens, $0.0021) shows the gap
+came from retrieval, so a better search could match the accuracy at a fraction of the price.
+
 ## 3. Minimal prompt against five-part prompt (Step 6)
 
 Which prompt did better on right place, and which on correct? Give both numbers for both
 prompts. Name one question where the two prompts' replies differed, and say what
 differed.
+
+The five-part prompt did better on both measures: right place 5 of 10 against 1 of 10
+for the minimal prompt, and correct 5 of 10 against 3 of 10 (valid JSON 10 of 10 against
+3 of 10). On q01 both replies stated the right facts (400 to 499 Client Error, 500 to 599
+Server Error), but the minimal reply sent "line": "997–1024", a string range instead of
+an integer, so parse_reply rejected it and it counts as wrong, while the five-part reply
+gave the integer line 1013. The prompts also differed on q07: the five-part prompt said
+not found, but the minimal prompt answered "python-requests/<version>" and filled in a
+version (2.32.5) that is not in the code shown, since it had no rule to answer only from
+the code.
 
 ## 4. Word search against meaning search (Step 7)
 

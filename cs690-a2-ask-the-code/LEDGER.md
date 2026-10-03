@@ -40,10 +40,16 @@ changed:   two misses were retrieval failures, so I looked at why word search mi
 ## My entries
 
 ## Entry 1
-artifact:
-tool:
-prompts:
-review:
-checks:
-evidence:
-risk:
+artifact:  environment setup and .env configuration (.env not committed)
+tool:      Claude (claude.ai), Claude Opus 5.5, 2026-10-03, for setup guidance;
+           API provider OpenAI, model gpt-5.6-luna
+prompts:   asked how to set up the repo and where to find my model's prices;
+           prompts/entry-01-setup.md
+review:    read the prices myself on https://platform.openai.com/docs/pricing:
+           gpt-5.6-luna short context, input $0.20 / MTok, output $1.20 / MTok;
+           chose short context because no prompt here reaches the long-context size;
+           kept the default model instead of the cheaper gpt-6-luna, as the handout says
+checks:    python -m askcode.check_setup: All checks passed (AI call 13 tokens in, 4 out);
+           git status: .env not listed
+evidence:  HANDOUT Step 0
+risk:      prices may change before my runs; result costs are estimates from these prices

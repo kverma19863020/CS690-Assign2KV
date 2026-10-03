@@ -9,7 +9,7 @@ no key; the first run downloads it once, about 67 MB, into the .models folder.
 
 from __future__ import annotations
 
-import math  # noqa: F401  (you will need it)
+import math
 from collections.abc import Callable
 
 from askcode import embed
@@ -22,7 +22,14 @@ def cosine(a: list[float], b: list[float]) -> float:
     Return 0.0 if either vector has length 0 (all zeros).
     Raise ValueError if the two vectors do not have the same number of numbers.
     """
-    raise NotImplementedError("Step 7: write cosine in askcode/search_meaning.py")
+    if len(a) != len(b):
+        raise ValueError(f"vectors have different sizes: {len(a)} and {len(b)}")
+    dot = sum(x * y for x, y in zip(a, b))
+    length_a = math.sqrt(sum(x * x for x in a))
+    length_b = math.sqrt(sum(y * y for y in b))
+    if length_a == 0 or length_b == 0:
+        return 0.0
+    return dot / (length_a * length_b)
 
 
 class MeaningIndex:
@@ -34,26 +41,25 @@ class MeaningIndex:
         embed_passages: Callable[[list[str]], list[list[float]]] | None = None,
         embed_query: Callable[[str], list[float]] | None = None,
     ) -> None:
-        """Store the chunks and embed all of them, here, once.
-
-        1. If embed_passages or embed_query is None, use embed.embed_passages or
-           embed.embed_query. (The tests pass in small fake versions instead.)
-        2. The text embedded for a chunk is chunk.name + "\\n" + chunk.text.
-        3. Call embed_passages exactly once, with the list of all those texts in the
-           order of `chunks`. One call is far faster than one call per chunk.
-        4. Keep what you need for search: the chunks, their vectors, and embed_query.
-        """
-        raise NotImplementedError("Step 7: write MeaningIndex.__init__ in askcode/search_meaning.py")
+        """Store the chunks and embed all of them, here, once, in a single call."""
+        if embed_passages is None:
+            embed_passages = embed.embed_passages
+        if embed_query is None:
+            embed_query = embed.embed_query
+        self.chunks = list(chunks)
+        self.embed_query = embed_query
+        texts = [c.name + "\n" + c.text for c in self.chunks]
+        self.vectors = [list(v) for v in embed_passages(texts)]
 
     def search(self, question: str, k: int = 3) -> list[Chunk]:
         """Return the k chunks whose vectors are closest in meaning to the question.
 
-        1. Embed the question with embed_query, once. Do not embed any chunk here.
-        2. Score every chunk with cosine(question vector, chunk vector).
-        3. Return the k highest-scoring chunks, highest first. When two chunks have
-           the same score, the one that comes first in the chunks list comes first.
-
-        Unlike word search, this always returns k chunks (or every chunk, if there
-        are fewer than k), even when none of them is relevant (slide 56).
+        The question is embedded once; every chunk is scored with cosine similarity;
+        the highest scores come first, and ties keep the order of the chunks list.
         """
-        raise NotImplementedError("Step 7: write MeaningIndex.search in askcode/search_meaning.py")
+        q = self.embed_query(question)
+        if k <= 0:
+            return []
+        scored = [(cosine(q, v), i) for i, v in enumerate(self.vectors)]
+        scored.sort(key=lambda pair: (-pair[0], pair[1]))
+        return [self.chunks[i] for _, i in scored[:k]]

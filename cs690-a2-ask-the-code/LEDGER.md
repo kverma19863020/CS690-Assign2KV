@@ -66,3 +66,15 @@ checks:    load_questions: 10 questions, 1 unanswerable; show.py found all 9 nam
 evidence:  HANDOUT Step 1; tests/test_questions.py
 risk:      questions were AI-drafted rather than written in class; answer wording
            may need judgment when marking replies as right or wrong
+
+## Entry 3
+artifact:  askcode/split.py at the "Step 2: split.py, 230 chunks" commit
+tool:      Claude (claude.ai), Claude Opus 5.5, 2026-10-03
+prompts:   asked Claude for step-by-step help; it drafted split.py; prompts/entry-03-split.md
+review:    read every line against docstring rules 1 to 6; confirmed it loops over
+           tree.body and top-level class bodies only (not ast.walk), so nested functions
+           and functions inside if/try are skipped; confirmed decorators start the chunk
+           and lines are split on "\n"
+checks:    pytest tests/test_split.py tests/test_questions.py: 12 passed
+evidence:  HANDOUT Step 2; split.py docstring rules 1 to 6
+risk:      not tested on files with Windows line endings or syntax errors

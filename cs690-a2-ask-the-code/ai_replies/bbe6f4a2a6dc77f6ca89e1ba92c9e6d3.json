@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "bbe6f4a2a6dc77f6ca89e1ba92c9e6d3",
+  "asked_at": "2026-10-03T21:54:29+00:00",
+  "input_tokens": 2384,
+  "output_tokens": 38,
+  "text": "{\"answer\":\"An OSError is raised stating that the TLS CA certificate bundle could not be found and giving the invalid path.\",\"file\":\"adapters.py\",\"line\":328}"
+}

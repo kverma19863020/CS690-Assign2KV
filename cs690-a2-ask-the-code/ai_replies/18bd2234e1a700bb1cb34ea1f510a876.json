@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "18bd2234e1a700bb1cb34ea1f510a876",
+  "asked_at": "2026-10-03T21:55:31+00:00",
+  "input_tokens": 671,
+  "output_tokens": 33,
+  "text": "{\"answer\":\"It assumes ISO-8859-1 for a text response when no charset is specified.\",\"file\":\"utils.py\",\"line\":557}"
+}

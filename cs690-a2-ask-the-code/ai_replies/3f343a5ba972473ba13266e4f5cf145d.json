@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "3f343a5ba972473ba13266e4f5cf145d",
+  "asked_at": "2026-10-03T21:55:25+00:00",
+  "input_tokens": 788,
+  "output_tokens": 75,
+  "text": "{\"answer\":\"raise_for_status raises for status codes 400–499 and 500–599. Its message labels them respectively as \\\"{status_code} Client Error: {reason} for url: {url}\\\" or \\\"{status_code} Server Error: {reason} for url: {url}\\\".\",\"file\":\"models.py\",\"line\":1013}"
+}

@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "279b1d198cd4f951a92614cb3d31a3b0",
+  "asked_at": "2026-10-03T21:55:01+00:00",
+  "input_tokens": 54927,
+  "output_tokens": 36,
+  "text": "{\"answer\":\"The permanent redirect status codes are 301 (moved) and 308 (permanent_redirect).\",\"file\":\"models.py\",\"line\":779}"
+}

@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "c552ffa2c9bd99db42ef4152fa37b7e4",
+  "asked_at": "2026-10-03T21:55:28+00:00",
+  "input_tokens": 701,
+  "output_tokens": 68,
+  "text": "{\"answer\":\"A POST is changed to GET when the redirect status is 303 See Other, 302 Found, or 301 Moved Permanently. The 303 and 302 cases apply to any method other than HEAD, while the 301 case applies specifically to POST.\",\"file\":\"sessions.py\",\"line\":350}"
+}

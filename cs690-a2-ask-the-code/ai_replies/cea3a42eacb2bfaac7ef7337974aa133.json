@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "cea3a42eacb2bfaac7ef7337974aa133",
+  "asked_at": "2026-10-03T21:55:12+00:00",
+  "input_tokens": 54933,
+  "output_tokens": 41,
+  "text": "{\"answer\":\"The adapter raises OSError with a message stating it could not find a suitable TLS CA certificate bundle and giving the invalid path.\",\"file\":\"adapters.py\",\"line\":328}"
+}

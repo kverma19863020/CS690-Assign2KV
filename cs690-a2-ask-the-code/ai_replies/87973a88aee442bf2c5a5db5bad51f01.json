@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "87973a88aee442bf2c5a5db5bad51f01",
+  "asked_at": "2026-10-03T21:55:26+00:00",
+  "input_tokens": 636,
+  "output_tokens": 51,
+  "text": "{\"answer\":\"Yes. When the body is None and the method is not GET or HEAD, requests sets the Content-Length header to \\\"0\\\", so a POST gets Content-Length: 0.\",\"file\":\"models.py\",\"line\":586}"
+}

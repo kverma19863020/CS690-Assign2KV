@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "095a5b5e5f13830f0b5a79263ca38c24",
+  "asked_at": "2026-10-03T21:55:08+00:00",
+  "input_tokens": 54931,
+  "output_tokens": 58,
+  "text": "{\"answer\":\"Requests uses the default User-Agent string `python-requests/2.32.3` when none is set: `default_user_agent()` formats `python-requests` with `__version__`.\", \"file\":\"utils.py\", \"line\":897}"
+}

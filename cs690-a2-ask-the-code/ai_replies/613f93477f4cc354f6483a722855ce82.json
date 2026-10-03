@@ -1,0 +1,9 @@
+{
+  "provider": "openai",
+  "model": "gpt-5.6-luna",
+  "prompt_key": "613f93477f4cc354f6483a722855ce82",
+  "asked_at": "2026-10-03T21:54:22+00:00",
+  "input_tokens": 1876,
+  "output_tokens": 67,
+  "text": "{\"answer\":\"A POST is changed to GET for a 303 See Other response, a 302 Found response, or a 301 Moved response. The 303 and 302 cases apply to any method other than HEAD, while the 301 case specifically requires POST.\",\"file\":\"sessions.py\",\"line\":340}"
+}
